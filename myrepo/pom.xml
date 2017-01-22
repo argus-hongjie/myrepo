@@ -18,8 +18,7 @@
   		<groupId>org.zhj2074</groupId>
   		<artifactId>usedjar</artifactId>
   		<version>1.0</version>
-  	</dependency>
-	      <dependency>
+  	</dependency><dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>

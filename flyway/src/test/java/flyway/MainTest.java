@@ -22,7 +22,8 @@ public class MainTest extends TestCase{
 		assertNotNull(DataSourceManager.getInstance());
 	}
 	
-	@Test void testInsertUser() {
+	@Test 
+	public void testInsertUser() {
 		DataSourceManager.getInstance().getJdbcTemplate().update("Insert into users(email) values('a@a.fr')", new HashMap());
 		String email = DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select email from users where email='a@a.fr'", new HashMap(), String.class);
 		assertTrue(email.equals("a@a.fr"));

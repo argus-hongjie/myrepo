@@ -1,17 +1,27 @@
 language: java
+
 sudo: false
+
 services:
   - postgresql
+  
 addons:
   postgresql: "9.1"
+  
 jdk: oraclejdk8
+
+env:
+  - PRJNAME=myrepo
+  - PRJNAME=depprj
+  - PRJNAME=flyway
+  
 before_script:
   - psql -U postgres -c "create user dbuser with superuser;"
   - psql -U postgres -c "alter user dbuser with password 'dbuser';"
   - psql -U postgres -c "create database flyway owner dbuser;"
+  - cd $TRAVIS_BUILD_DIR/usedjar && mvn clean install
+  
 script:
- - cd $TRAVIS_BUILD_DIR/myrepo && mvn clean test
- - cd $TRAVIS_BUILD_DIR/usedjar && mvn clean install
- - cd $TRAVIS_BUILD_DIR/depprj && mvn clean test
- - cd $TRAVIS_BUILD_DIR/flyway && mvn clean test
+ - cd $TRAVIS_BUILD_DIR/$PRJNAME && mvn clean test
+ 
  

@@ -7,7 +7,7 @@ addons:
 jdk: oraclejdk8
 before_script:
   - psql -U postgres -c "create user dbuser with superuser;"
-  - psql -U postgres -c "alter user panorama with password 'dbuser';"
+  - psql -U postgres -c "alter user dbuser with password 'dbuser';"
   - psql -U postgres -c "create database flyway owner dbuser;"
 script:
  - cd $TRAVIS_BUILD_DIR/myrepo && mvn clean test

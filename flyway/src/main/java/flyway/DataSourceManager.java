@@ -2,7 +2,7 @@ package flyway;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
+import org.flywaydb.core.Flyway;
 import org.postgresql.ds.PGPoolingDataSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 

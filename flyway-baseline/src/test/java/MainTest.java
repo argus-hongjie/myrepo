@@ -40,7 +40,7 @@ public class MainTest extends TestCase{
 		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from users2", new HashMap(), Integer.class)==1);
 		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from a", new HashMap(), Integer.class)==0);
 		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from b", new HashMap(), Integer.class)==0);
-		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from SCHEMA_", new HashMap(), Integer.class)==2);
+		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from SCHEMA_VERSION", new HashMap(), Integer.class)==2);
 		
 	}
 

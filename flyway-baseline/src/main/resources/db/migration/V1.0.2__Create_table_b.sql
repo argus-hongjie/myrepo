@@ -1,0 +1,4 @@
+CREATE TABLE b (
+    id    SERIAL PRIMARY KEY,
+    b TEXT
+)

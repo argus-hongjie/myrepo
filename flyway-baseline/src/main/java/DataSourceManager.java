@@ -1,8 +1,8 @@
-package flyway;
+
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import org.flywaydb.core.Flyway;
+
 import org.postgresql.ds.PGPoolingDataSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
@@ -17,7 +17,8 @@ public class DataSourceManager {
 			
 	
 	private static PGPoolingDataSource source = new PGPoolingDataSource();
-	public static PGPoolingDataSource getSource() {
+	
+	public PGPoolingDataSource getSource() {
 		return source;
 	}
 
@@ -26,10 +27,6 @@ public class DataSourceManager {
 	private DataSourceManager() {
 		init();
 		jdbcTemplate = new NamedParameterJdbcTemplate(source);
-		Flyway flyway = new Flyway();
-		flyway.setDataSource(source);
-		flyway.setBaselineOnMigrate(true);
-		flyway.migrate();
 	}
 
 	private static class DataSourceManagerHolder {

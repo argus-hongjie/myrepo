@@ -14,6 +14,7 @@ env:
   - PRJNAME=myrepo
   - PRJNAME=depprj
   - PRJNAME=flyway
+  - PRJNAME=flyway-baseline
   
 before_script:
   - psql -U postgres -c "create user dbuser with superuser;"

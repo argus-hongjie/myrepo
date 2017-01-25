@@ -1,6 +1,8 @@
 
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.assertj.core.api.Assertions;
 import org.flywaydb.core.Flyway;
@@ -40,8 +42,19 @@ public class MainTest extends TestCase{
 		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from users2", new HashMap(), Integer.class)==1);
 		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from a", new HashMap(), Integer.class)==0);
 		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from b", new HashMap(), Integer.class)==0);
-		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from SCHEMA_VERSION", new HashMap(), Integer.class)==2);
-		
+		Assertions.assertThat(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from SCHEMA_VERSION", new HashMap(), Integer.class)).isEqualTo(2);
+		List<Map<String, Object>> list = DataSourceManager.getInstance().getJdbcTemplate().queryForList("select * from SCHEMA_VERSION", new HashMap());
+		list.stream().forEach(map->{
+				System.out.println("-------------------------------------------");
+				System.out.println(map.get("installed_rank"));
+				System.out.println(map.get("version"));
+				System.out.println(map.get("description"));
+				System.out.println(map.get("type"));
+				System.out.println(map.get("script"));
+				System.out.println(map.get("checksum"));
+				System.out.println(map.get("installed_by"));
+			});
+	
 	}
 
 }

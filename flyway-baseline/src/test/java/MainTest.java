@@ -36,7 +36,7 @@ public class MainTest extends TestCase{
 		Flyway flyway = new Flyway();
 		flyway.setDataSource(DataSourceManager.getInstance().getSource());
 		flyway.setBaselineOnMigrate(true);
-		flyway.setBaselineVersionAsString("1.0.1");
+		flyway.setBaselineVersionAsString("1.0.1__Create_table_a");
 		flyway.migrate();
 		
 		List<Map<String, Object>> list = DataSourceManager.getInstance().getJdbcTemplate().queryForList("select * from SCHEMA_VERSION", new HashMap());

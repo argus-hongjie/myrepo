@@ -46,16 +46,16 @@ public class MainTest extends TestCase{
 		List<Map<String, Object>> list = DataSourceManager.getInstance().getJdbcTemplate().queryForList("select * from SCHEMA_VERSION", new HashMap());
 		list.stream().forEach(map->{
 				System.out.println("-------------------------------------------");
-				System.out.println(map.get("installed_rank"));
-				System.out.println(map.get("version"));
-				System.out.println(map.get("description"));
-				System.out.println(map.get("type"));
-				System.out.println(map.get("script"));
-				System.out.println(map.get("checksum"));
-				System.out.println(map.get("installed_by"));
-				System.out.println(map.get("installed_on"));
-				System.out.println(map.get("execution_time"));
-				System.out.println(map.get("success"));
+				System.out.println("installed_rank: " + map.get("installed_rank"));
+				System.out.println("version: " + map.get("version"));
+				System.out.println("description: " + map.get("description"));
+				System.out.println("type: " + map.get("type"));
+				System.out.println("script: " + map.get("script"));
+				System.out.println("checksum: " + map.get("checksum"));
+				System.out.println("installed_by: " + map.get("installed_by"));
+				System.out.println("installed_on: " + map.get("installed_on"));
+				System.out.println("execution_time: " + map.get("execution_time"));
+				System.out.println("execution_time: " + map.get("execution_time"));
 			});
 	
 	}

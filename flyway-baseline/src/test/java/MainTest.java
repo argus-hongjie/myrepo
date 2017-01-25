@@ -31,7 +31,7 @@ public class MainTest extends TestCase{
 	public void testInsertUser() {
 		DataSourceManager.getInstance().getJdbcTemplate().update("CREATE TABLE users2 (id SERIAL PRIMARY KEY, email TEXT)", new HashMap());
 		DataSourceManager.getInstance().getJdbcTemplate().update("Insert into users2(email) values('a@a.fr')", new HashMap());
-		System.setProperty("flyway.baselineVersion", "1.0.2");
+		System.setProperty("flyway.baselineVersion", "1.0.1__Create_table_a");
 		
 		Flyway flyway = new Flyway();
 		flyway.setDataSource(DataSourceManager.getInstance().getSource());
@@ -55,7 +55,7 @@ public class MainTest extends TestCase{
 				System.out.println("installed_by: " + map.get("installed_by"));
 				System.out.println("installed_on: " + map.get("installed_on"));
 				System.out.println("execution_time: " + map.get("execution_time"));
-				System.out.println("execution_time: " + map.get("execution_time"));
+				System.out.println("success: " + map.get("success"));
 			});
 	
 	}

@@ -22,6 +22,10 @@ public class DataSourceManager {
 	private DataSourceManager() {
 		init();
 		jdbcTemplate = new NamedParameterJdbcTemplate(source);
+		Flyway flyway = new Flyway();
+		flyway.setDataSource(source);
+		flyway.setBaselineOnMigrate(true);
+		flyway.migrate();
 	}
 
 	private static class DataSourceManagerHolder {

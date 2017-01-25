@@ -2,8 +2,10 @@
 
 import java.util.HashMap;
 
+import org.assertj.core.api.Assertions;
 import org.flywaydb.core.Flyway;
 import org.junit.Test;
+import org.postgresql.util.PSQLException;
 
 import junit.framework.TestCase;
 
@@ -34,8 +36,12 @@ public class MainTest extends TestCase{
 		flyway.setBaselineOnMigrate(true);
 		flyway.migrate();
 		
-		String email = DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select * from users where email='a@a.fr'", new HashMap(), String.class);
-		assertTrue(email.equals("a@a.fr"));
+		Assertions.assertThatThrownBy(()->DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from users", new HashMap(), Integer.class)).isInstanceOf(PSQLException.class);
+		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from users2", new HashMap(), Integer.class)==1);
+		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from a", new HashMap(), Integer.class)==0);
+		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from b", new HashMap(), Integer.class)==0);
+		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from SCHEMA_", new HashMap(), Integer.class)==2);
+		
 	}
 
 }

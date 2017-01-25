@@ -36,6 +36,7 @@ public class MainTest extends TestCase{
 		Flyway flyway = new Flyway();
 		flyway.setDataSource(DataSourceManager.getInstance().getSource());
 		flyway.setBaselineOnMigrate(true);
+		flyway.setBaselineVersionAsString("1.0.1");
 		flyway.migrate();
 		
 		Assertions.assertThatThrownBy(()->DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from users", new HashMap(), Integer.class)).isInstanceOf(BadSqlGrammarException.class);

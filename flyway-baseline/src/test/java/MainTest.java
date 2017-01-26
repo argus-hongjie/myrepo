@@ -32,12 +32,12 @@ public class MainTest extends TestCase{
 	public void testInsertUser() {
 		DataSourceManager.getInstance().getJdbcTemplate().update("CREATE TABLE users2 (id SERIAL PRIMARY KEY, email TEXT)", new HashMap());
 		DataSourceManager.getInstance().getJdbcTemplate().update("Insert into users2(email) values('a@a.fr')", new HashMap());
-//		System.setProperty("flyway.baselineVersion", "1.0.1__Create_table_a");
+		System.setProperty("flyway.baseline-version", "1.0.1");
 		
 		Flyway flyway = new Flyway();
 		flyway.setDataSource(DataSourceManager.getInstance().getSource());
 		flyway.setBaselineOnMigrate(true);
-		flyway.setBaselineVersionAsString("1.0.1");
+//		flyway.setBaselineVersionAsString("1.0.1");
 		flyway.migrate();
 		
 		List<Map<String, Object>> list = DataSourceManager.getInstance().getJdbcTemplate().queryForList("select * from SCHEMA_VERSION", new HashMap());

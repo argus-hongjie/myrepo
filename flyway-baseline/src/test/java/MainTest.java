@@ -28,6 +28,66 @@ public class MainTest extends TestCase{
 	}
 	
 	@Test 
+	public void test_baseline_without_baseline_empty_db() {
+		Flyway flyway = new Flyway();
+		flyway.setDataSource(DataSourceManager.getInstance().getSource());
+		flyway.clean();
+		flyway.migrate();
+		
+		List<Map<String, Object>> list = DataSourceManager.getInstance().getJdbcTemplate().queryForList("select * from SCHEMA_VERSION", new HashMap());
+		System.out.println("----------------test_baseline_without_baseline_empty_db---------------------");
+		list.stream().forEach(map->{
+				System.out.println("------------");
+				System.out.println("installed_rank: " + map.get("installed_rank"));
+				System.out.println("version: " + map.get("version"));
+				System.out.println("description: " + map.get("description"));
+				System.out.println("type: " + map.get("type"));
+				System.out.println("script: " + map.get("script"));
+				System.out.println("checksum: " + map.get("checksum"));
+				System.out.println("installed_by: " + map.get("installed_by"));
+				System.out.println("installed_on: " + map.get("installed_on"));
+				System.out.println("execution_time: " + map.get("execution_time"));
+				System.out.println("success: " + map.get("success"));
+			});
+		
+		Assertions.assertThat(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from SCHEMA_VERSION", new HashMap(), Integer.class)).isEqualTo(3);
+		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from users", new HashMap(), Integer.class)==0);
+		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from a", new HashMap(), Integer.class)==0);
+		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from b", new HashMap(), Integer.class)==0);
+	}
+	
+	@Test 
+	public void test_baseline_without_baseline_not_empty_db() {
+		Flyway flyway = new Flyway();
+		flyway.setDataSource(DataSourceManager.getInstance().getSource());
+		flyway.clean();
+		DataSourceManager.getInstance().getJdbcTemplate().update("CREATE TABLE users2 (id SERIAL PRIMARY KEY, email TEXT)", new HashMap());
+		DataSourceManager.getInstance().getJdbcTemplate().update("Insert into users2(email) values('a@a.fr')", new HashMap());
+		flyway.migrate();
+		
+		List<Map<String, Object>> list = DataSourceManager.getInstance().getJdbcTemplate().queryForList("select * from SCHEMA_VERSION", new HashMap());
+		System.out.println("----------------test_baseline_without_baseline_not_empty_db---------------------");
+		list.stream().forEach(map->{
+				System.out.println("------------");
+				System.out.println("installed_rank: " + map.get("installed_rank"));
+				System.out.println("version: " + map.get("version"));
+				System.out.println("description: " + map.get("description"));
+				System.out.println("type: " + map.get("type"));
+				System.out.println("script: " + map.get("script"));
+				System.out.println("checksum: " + map.get("checksum"));
+				System.out.println("installed_by: " + map.get("installed_by"));
+				System.out.println("installed_on: " + map.get("installed_on"));
+				System.out.println("execution_time: " + map.get("execution_time"));
+				System.out.println("success: " + map.get("success"));
+			});
+		
+		Assertions.assertThat(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from SCHEMA_VERSION", new HashMap(), Integer.class)).isEqualTo(3);
+		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from users", new HashMap(), Integer.class)==0);
+		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from a", new HashMap(), Integer.class)==0);
+		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from b", new HashMap(), Integer.class)==0);
+	}
+	
+	@Test 
 	public void test_baseline_to_not_empty_db_without_baselineVersion_default_V1() {
 		Flyway flyway = new Flyway();
 		flyway.setDataSource(DataSourceManager.getInstance().getSource());

@@ -76,7 +76,7 @@ public class MainTest extends TestCase{
 		DataSourceManager.getInstance().getJdbcTemplate().update("CREATE TABLE users2 (id SERIAL PRIMARY KEY, email TEXT)", new HashMap());
 		DataSourceManager.getInstance().getJdbcTemplate().update("Insert into users2(email) values('a@a.fr')", new HashMap());
 		flyway.setBaselineOnMigrate(true); // without_baselineVersion_default_V1: not execute V1__Xx.sql, V1.0__Xx.sql, V1.0.0__Xx.sql, but execute V1.1__Xx.sql, V1.0.1__Xx.sql
-		Assertions.assertThatThrownBy(()->flyway.migrate()).isInstanceOf(FlywayException.class);
+		flyway.migrate();
 		
 		List<Map<String, Object>> list = DataSourceManager.getInstance().getJdbcTemplate().queryForList("select * from SCHEMA_VERSION", new HashMap());
 		System.out.println("----------------test_baseline_to_not_empty_db_without_baselineVersion_default_V1---------------------");

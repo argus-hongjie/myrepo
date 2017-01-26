@@ -52,13 +52,15 @@ public class MainTest extends TestCase{
 				System.out.println("execution_time: " + map.get("execution_time"));
 				System.out.println("success: " + map.get("success"));
 			});
-		Assertions.assertThat(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from SCHEMA_VERSION", new HashMap(), Integer.class)).isEqualTo(4);
+		
 		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from users2", new HashMap(), Integer.class)==1);
 		
 		//if first sql: V1__Xx.sql, V1.0__Xx.sql, V1.0.0__Xx.sql
+		Assertions.assertThat(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from SCHEMA_VERSION", new HashMap(), Integer.class)).isEqualTo(3);
 		Assertions.assertThatThrownBy(()->DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from users", new HashMap(), Integer.class)).isInstanceOf(BadSqlGrammarException.class);
 		
 		//if first sql: V1.0.1__Create_tables.sql
+//		Assertions.assertThat(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from SCHEMA_VERSION", new HashMap(), Integer.class)).isEqualTo(4);
 //		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from users", new HashMap(), Integer.class)==0); 
 		
 		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from a", new HashMap(), Integer.class)==0);

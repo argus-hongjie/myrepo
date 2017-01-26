@@ -32,12 +32,11 @@ public class MainTest extends TestCase{
 	public void testInsertUser() {
 		DataSourceManager.getInstance().getJdbcTemplate().update("CREATE TABLE users2 (id SERIAL PRIMARY KEY, email TEXT)", new HashMap());
 		DataSourceManager.getInstance().getJdbcTemplate().update("Insert into users2(email) values('a@a.fr')", new HashMap());
-		System.setProperty("flyway.baseline-version", "1.0.1");
 		
 		Flyway flyway = new Flyway();
 		flyway.setDataSource(DataSourceManager.getInstance().getSource());
 		flyway.setBaselineOnMigrate(true);
-//		flyway.setBaselineVersionAsString("1.0.1");
+		flyway.setBaselineVersionAsString("1.0.1");
 		flyway.migrate();
 		
 		List<Map<String, Object>> list = DataSourceManager.getInstance().getJdbcTemplate().queryForList("select * from SCHEMA_VERSION", new HashMap());
@@ -54,7 +53,7 @@ public class MainTest extends TestCase{
 				System.out.println("execution_time: " + map.get("execution_time"));
 				System.out.println("success: " + map.get("success"));
 			});
-		Assertions.assertThat(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from SCHEMA_VERSION", new HashMap(), Integer.class)).isEqualTo(3);
+		Assertions.assertThat(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from SCHEMA_VERSION", new HashMap(), Integer.class)).isEqualTo(2);
 		assertTrue(DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from users2", new HashMap(), Integer.class)==1);
 		Assertions.assertThatThrownBy(()->DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from users", new HashMap(), Integer.class)).isInstanceOf(BadSqlGrammarException.class);
 		Assertions.assertThatThrownBy(()->DataSourceManager.getInstance().getJdbcTemplate().queryForObject("select count(*) from a", new HashMap(), Integer.class)).isInstanceOf(BadSqlGrammarException.class);

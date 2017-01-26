@@ -34,7 +34,7 @@ public class MainTest extends TestCase{
 		flyway.clean();
 		DataSourceManager.getInstance().getJdbcTemplate().update("CREATE TABLE users2 (id SERIAL PRIMARY KEY, email TEXT)", new HashMap());
 		DataSourceManager.getInstance().getJdbcTemplate().update("Insert into users2(email) values('a@a.fr')", new HashMap());
-		flyway.setBaselineOnMigrate(true);
+		flyway.setBaselineOnMigrate(true); // without_baselineVersion_default_V1: not execute first sql
 		flyway.migrate();
 		
 		List<Map<String, Object>> list = DataSourceManager.getInstance().getJdbcTemplate().queryForList("select * from SCHEMA_VERSION", new HashMap());
@@ -96,7 +96,7 @@ public class MainTest extends TestCase{
 		DataSourceManager.getInstance().getJdbcTemplate().update("CREATE TABLE users2 (id SERIAL PRIMARY KEY, email TEXT)", new HashMap());
 		DataSourceManager.getInstance().getJdbcTemplate().update("Insert into users2(email) values('a@a.fr')", new HashMap());
 		flyway.setBaselineOnMigrate(true);
-		flyway.setBaselineVersionAsString("1.0.1"); // not execute V1.0.1__XXX.sql
+		flyway.setBaselineVersionAsString("2.0.1"); // not execute V1.0.1__XXX.sql
 		flyway.migrate();
 		
 		List<Map<String, Object>> list = DataSourceManager.getInstance().getJdbcTemplate().queryForList("select * from SCHEMA_VERSION", new HashMap());
@@ -128,7 +128,7 @@ public class MainTest extends TestCase{
 		flyway.setDataSource(DataSourceManager.getInstance().getSource());
 		flyway.clean();
 		flyway.setBaselineOnMigrate(true);
-		flyway.setBaselineVersionAsString("1.0.1");
+		flyway.setBaselineVersionAsString("2.0.1");
 		flyway.migrate();
 		
 		List<Map<String, Object>> list = DataSourceManager.getInstance().getJdbcTemplate().queryForList("select * from SCHEMA_VERSION", new HashMap());
